@@ -150,11 +150,11 @@ class Window(QDialog):
         self.websocket.disconnected.connect(self.websocketDisconnected)
         try:
             self.websocket.textMessageReceived.connect(self.websocketMsgRcvd)
-            self.websocket.open(QUrl(f'ws://127.0.0.1:{int(self.localport)+1}'))
+            self.websocket.open(QUrl(f'ws://127.0.0.1:{self.localport+1}'))
             print("connect")
         except:
             print("disconnect")
-        
+
     def processFinished(self):
         self.process.kill()
 
@@ -167,9 +167,10 @@ class Window(QDialog):
             # username = self.usernameLine.text()
             username = self.username
             remoteport = self.remoteport
-            localport=self.localport
+            localport= self.localport
             password = self.edit.text()
             print(username,password,remoteport,localport)
+            pythonExec = os.path.basename(sys.executable)
             # consolePort = self.consolePortLine.text()
             # remoteHost = self.remoteHostLine.text()
             # remotePort = self.remotePortLine.text()
@@ -177,13 +178,12 @@ class Window(QDialog):
             # 从localgui启动localproxy直接使用-w 提供用户密码，不再使用命令行交互输入，因为有些许问题
             # cmdLine = f'{pythonExec} work6.py local -p {listenPort} -u {username} -w {password} -k {consolePort} {remoteHost} {remotePort}'
             # cmdLine="D:\v2py\.vscode\pydwork1\m6\local.py zyb 135800"
-            cmdLine=f'python .vscode\pydwork1\m6\pyqtwebsocket\localtest.py {username} {password} {localport} {remoteport}'
+            cmdLine=f'python local.py {username} {password} {localport} {remoteport}'
             # .vscode\pydwork1\m6\finalv1\local.py
             # .vscode\pydwork1\m6\pyqtwebsocket\localtest.py
             # log.debug(f'cmd={cmdLine}')
             # print("now")
             self.process.start(cmdLine)
-            # print("so")
         else:
             self.process.kill()
             self.startBtn.setText('连接')

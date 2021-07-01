@@ -158,7 +158,9 @@ async def my_connect(reader, writer):
         
 async def connect_remote(writer_remote,reader_remote,writer,reader,data2,data1):
     writer_remote.write(data1)
+    print('hello1')
     await writer_remote.drain()
+    print('hello2')
     data = await reader_remote.read(rwsize)
     request = struct.unpack('!BB', data[:2])
     if request[0]==5 and request[1] == 0:#tcp successful
