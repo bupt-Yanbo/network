@@ -5,6 +5,9 @@ import string
 import sys
 import websockets
 import traceback
+import os
+path = 'data'
+files = os.listdir(path)
 
 logging.basicConfig(level=logging.WARNING)  # 设置日志级别
 #read和write的大小
@@ -15,6 +18,15 @@ gSendBandWidth = 0
 gRecvBandWidth = 0
 now_rdata_len = 0
 now_wdata_len = 0
+write_data_num=0
+write_data=[]
+write_max=1000
+write_loop=0
+read_data_num=0
+read_data=[]
+read_max=1000
+read_loop=0
+
 
 async def localConsole(ws, path):
     global gSendBandWidth
@@ -191,6 +203,21 @@ async def transport(reader, writer, host):
     while reader.at_eof:
         try:
             data = await reader.read(rwsize)
+            if(read_loop==0):
+                read_data.append(data)
+                read_data_num=read_data_num+1
+                if(read_data_num>read_max):
+                    read_data_num=0
+                    read_loop=1
+                    filename=open(path + '\\' + "read_data1"+".txt","w+",encoding='utf-8')
+                    filename.write(read_data)
+            else:
+                read_data[read_data_num]=data
+                read_data_num=read_data_num+1
+                if(read_data_num>read_max):
+                    read_data_num=0
+                    filename=open(path + '\\' + "read_data2"+".txt","w+",encoding='utf-8')
+                    filename.write(read_data)
             now_rdata_len+=len(data)
             if not data:
                 writer.close()
@@ -201,6 +228,21 @@ async def transport(reader, writer, host):
             break
         try:
             writer.write(data)
+            if(write_loop==0):
+                write_data.append(data)
+                write_data_num=write_data_num+1
+                if(write_data_num>write_max):
+                    write_data_num=0
+                    write_loop=1
+                    filename=open(path + '\\' + "write_data1"+".txt","w+",encoding='utf-8')
+                    filename.write(write_data)
+            else:
+                write_data[write_data_num]=data
+                write_data_num=write_data_num+1
+                if(write_data_num>write_max):
+                    write_data_num=0
+                    filename=open(path + '\\' + "write_data2"+".txt","w+",encoding='utf-8')
+                    filename.write(write_data)
             now_wdata_len+=len(data)
             await writer.drain()
         except (ConnectionAbortedError, ConnectionResetError) as _:
