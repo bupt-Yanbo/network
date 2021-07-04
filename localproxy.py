@@ -13,7 +13,7 @@ RecvBand = 0
 SendBandwidth = 0
 RecvBandwidth = 0
 
-rite_data=[]
+write_data=[]
 write_max=1000
 write_loop=0
 read_data_num=0
