@@ -13,13 +13,18 @@ RecvBand = 0
 SendBandwidth = 0
 RecvBandwidth = 0
 
+write_data_num=0
 write_data=[]
-write_max=1000
+write_max=0
 write_loop=0
+
 read_data_num=0
 read_data=[]
-read_max=1000
+read_max=0
 read_loop=0
+
+data11=''
+data22=''
 
 async def localConsole(ws, path):
     global SendBandwidth
@@ -27,7 +32,10 @@ async def localConsole(ws, path):
     try:
         while True:
             await asyncio.sleep(1)
+            # print('SendBandwidth, RecvBandwidth ', SendBandwidth, ' ', RecvBandwidth)
             msg = await ws.send(f'{int(SendBandwidth)} {int(RecvBandwidth)}')
+            SendBandwidth = 0
+            RecvBandwidth = 0
     except websockets.exceptions.ConnectionClosedError as exc:
         logging.error(f'{exc}')
     except websockets.exceptions.ConnectionClosedOK as exc:
@@ -36,28 +44,73 @@ async def localConsole(ws, path):
         # logging.error(f'{traceback.format_exc()}')
         exit(1)
 
+async def readfile():
+    global read_data,read_loop,read_data_num,data11
+    # print(data11)
+    if data11 != '':
+        # print('read_loop:', read_loop)
+        if (read_loop == 0):
+            read_data.append(data11)
+            read_data_num = read_data_num + 1
+            # print('read_data_num, read_max:', read_data_num, read_max)
+            if (read_data_num > read_max):
+                read_data_num = 0
+                read_loop = 1
+
+                read_data1 = ''.join('%s' %a for a in read_data)
+                filename = open("read_data1.txt", "a+")
+                filename.write(read_data1 + "\n")
+                filename.close()
+
+        else:
+            read_data[read_data_num] = data11
+            read_data_num = read_data_num + 1
+            if (read_data_num > read_max):
+                read_data_num = 0
+                read_data1 = ''.join('%s' %a for a in read_data)
+                filename = open("read_data2.txt", "a+")
+                filename.write(read_data1 + "\n")
+                filename.close()
+    data11 = ''
+
+async def writefile():
+    global write_data, write_loop,write_data_num,data22
+    if data22 != '':
+        if (write_loop == 0):
+            write_data.append(data22)
+            write_data_num = write_data_num + 1
+            if (write_data_num > write_max):
+                write_data_num = 0
+                write_loop = 1
+
+                write_data1 = ''.join('%s' %a for a in write_data)
+                # filename = open(path + '\\' + "write_data1" + ".txt", "w+", encoding='utf-8')
+                filename = open("write_data1.txt", "a+")
+                filename.write(write_data1 + "\n")
+                filename.close()
+        else:
+            write_data[write_data_num] = data22
+            write_data_num = write_data_num + 1
+            if (write_data_num > write_max):
+                write_data_num = 0
+
+                write_data1 = ''.join('%s' %a for a in write_data)
+                filename = open("write_data2.txt", "a+")
+                filename.write(write_data1 + "\n")
+                filename.close()
+    data22 = ''
+
 async def transport(reader, writer, addr):
     global SendBand
     global RecvBand
+    global data11, data22
     while reader.at_eof:
         try:    # 从reader接收外部报文
             data = await reader.read(1000)
-            if (read_loop == 0):
-                read_data.append(data)
-                read_data_num = read_data_num + 1
-                if (read_data_num > read_max):
-                    read_data_num = 0
-                    read_loop = 1
-                    filename = open(path + '\\' + "read_data1" + ".txt", "w+", encoding='utf-8')
-                    filename.write(read_data)
-            else:
-                read_data[read_data_num] = data
-                read_data_num = read_data_num + 1
-                if (read_data_num > read_max):
-                    read_data_num = 0
-                    filename = open(path + '\\' + "read_data2" + ".txt", "w+", encoding='utf-8')
-                    filename.write(read_data)
             RecvBand += len(data)
+
+            data11 = data
+
             if not data:
                 writer.close()
                 break
@@ -68,22 +121,11 @@ async def transport(reader, writer, addr):
         try:    # 向writer转发报文
             SendBand += len(data)
             writer.write(data)
-            if (write_loop == 0):
-                write_data.append(data)
-                write_data_num = write_data_num + 1
-                if (write_data_num > write_max):
-                    write_data_num = 0
-                    write_loop = 1
-                    filename = open(path + '\\' + "write_data1" + ".txt", "w+", encoding='utf-8')
-                    filename.write(write_data)
-            else:
-                write_data[write_data_num] = data
-                write_data_num = write_data_num + 1
-                if (write_data_num > write_max):
-                    write_data_num = 0
-                    filename = open(path + '\\' + "write_data2" + ".txt", "w+", encoding='utf-8')
-                    filename.write(write_data)
             await writer.drain()
+
+            data22 = data
+            # asyncio.run(writefile(data))
+
         except (ConnectionAbortedError, ConnectionRefusedError) as e:
             writer.close()
             print(f'{addr}异常退出，{repr(e)}')
@@ -98,6 +140,7 @@ async def count_width():
     time.sleep(1)
     SendBandwidth = SendBand/1
     SendBand = 0
+    # print('SendBandwidth, SendBand: ', SendBand, ' ', SendBandwidth)
     print('SendBandwidth:', SendBandwidth)
     RecvBandwidth = RecvBand/1
     RecvBand = 0
@@ -152,7 +195,7 @@ async def handle_echo(reader, writer):
                     writer.close()
                     return
                 #并发转发数据包
-                await asyncio.gather(transport(reader, dswriter, '127.0.0.1'), transport(dsreader, writer, '127.0.0.1'), count_width())
+                await asyncio.gather(transport(reader, dswriter, '127.0.0.1'), transport(dsreader, writer, '127.0.0.1'), count_width(), readfile(), writefile())
             if header[3] == 3: #域名 X'03'
                 try:
                     dsreader, dswriter = await asyncio.open_connection('127.0.0.5', 1085)
@@ -176,7 +219,7 @@ async def handle_echo(reader, writer):
                     writer.close()
                     return
                 #并发转发数据包
-                await asyncio.gather(transport(reader, dswriter, '127.0.0.5'), transport(dsreader, writer, '127.0.0.5'), count_width())
+                await asyncio.gather(transport(reader, dswriter, '127.0.0.5'), transport(dsreader, writer, '127.0.0.5'), count_width(), readfile(), writefile())
     # http协议
     elif httpdata[0] == 'CONNECT': #只处理http的connect包，其余包暂时不处理
         try:
@@ -202,7 +245,7 @@ async def handle_echo(reader, writer):
             writer.close()
 
             return
-        await asyncio.gather(transport(reader, dswriter, '127.0.0.5'), transport(dsreader, writer, '127.0.0.5'), count_width())
+        await asyncio.gather(transport(reader, dswriter, '127.0.0.5'), transport(dsreader, writer, '127.0.0.5'), count_width(), readfile(), writefile())
     else:
         print("we can't handle this type of request")
         writer.close()
@@ -214,7 +257,7 @@ async def main():
     if args.consolePort:
         ws_server = await websockets.serve(localConsole, '127.0.0.1', args.consolePort)
         logging.info(f'CONSOLE LISTEN {ws_server.sockets[0].getsockname()}')
-    
+
     #asyncio.create_task(calcBandwidth())
 
     server_1 = await asyncio.start_server(handle_echo, '127.0.0.1', 1080)

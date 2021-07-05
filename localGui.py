@@ -223,6 +223,7 @@ class Ui_Form_3(Ui_Form_2):
         pythonExec = os.path.basename(sys.executable)
         
         cmdLine = f'{pythonExec} localproxy.py -u {self.username} -p {self.password} -c {self.consolePort}'
+        # print(cmdLine)
         logging.debug(f'cmd={cmdLine}')
         self.process.start(cmdLine)
 
@@ -258,6 +259,7 @@ class Ui_Form_3(Ui_Form_2):
         self.process.kill()
 
     def websocket_message_rec(self, msg):
+        # print(msg)
         logging.debug(f'msg={msg}')
         send_Bandwidth, recv_Bandwidth, *_ = msg.split()
         self.nowTime = QDateTime.currentDateTime().toString('hh:mm:ss')
