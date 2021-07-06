@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d8c1eb17-7e44-4a49-a773-5e12d3ab1346" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_preparation.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_preparation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/localproxy.py" beforeDir="false" afterPath="$PROJECT_DIR$/localproxy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user.db" beforeDir="false" afterPath="$PROJECT_DIR$/user.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_extract.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_extract.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,10 +75,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.remote" />
         <item itemvalue="Python.data_main" />
         <item itemvalue="Python.remote" />
-        <item itemvalue="Python.remote" />
-        <item itemvalue="Python.remote" />
+        <item itemvalue="Python.data_main" />
         <item itemvalue="Python.remote" />
       </list>
     </recent_temporary>
@@ -123,7 +120,21 @@
       <option name="project" value="LOCAL" />
       <updated>1625461575200</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="测试yanbo的程序">
+      <created>1625554610208</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1625554610208</updated>
+    </task>
+    <task id="LOCAL-00006" summary="加上文件">
+      <created>1625554675999</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1625554675999</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -155,6 +166,8 @@
     <MESSAGE value="删除" />
     <MESSAGE value="删除2" />
     <MESSAGE value="添加1" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加1" />
+    <MESSAGE value="测试yanbo的程序" />
+    <MESSAGE value="加上文件" />
+    <option name="LAST_COMMIT_MESSAGE" value="加上文件" />
   </component>
 </project>

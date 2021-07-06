@@ -3,7 +3,7 @@ import re
 
 def extract_1(data):
 
-    res=re.findall(r'[A-Za-z0-9]+\.[A-Za-z0-9]+',data,0)
+    res=re.findall(r'[A-Za-z]+\.[A-Za-z]+',data,0)
 
     return res
 
@@ -16,7 +16,7 @@ def extract_3(data):
 
 def extract_2(data):
 
-    res=re.findall(r'[A-Za-z0-9]+\.[A-Za-z0-9]+\.[A-Za-z0-9]+',data,0)
+    res=re.findall(r'[A-Za-z]+\.[A-Za-z]+\.[A-Za-z]+',data,0)
 
     return res
 
