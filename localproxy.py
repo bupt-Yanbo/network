@@ -58,7 +58,8 @@ async def readfile():
                 read_loop = 1
 
                 read_data1 = ''.join('%s' %a for a in read_data)
-                filename = open("read_data1.txt", "a+")
+                filename = open(path + '\\' + "read_data1" + ".txt", "a+", encoding='utf-8')
+                # filename = open("read_data1.txt", "a+")
                 filename.write(read_data1 + "\n")
                 filename.close()
 
@@ -68,7 +69,8 @@ async def readfile():
             if (read_data_num > read_max):
                 read_data_num = 0
                 read_data1 = ''.join('%s' %a for a in read_data)
-                filename = open("read_data2.txt", "a+")
+                filename = open(path + '\\' + "read_data2" + ".txt", "a+", encoding='utf-8')
+                # filename = open("read_data2.txt", "a+")
                 filename.write(read_data1 + "\n")
                 filename.close()
     data11 = ''
@@ -84,8 +86,8 @@ async def writefile():
                 write_loop = 1
 
                 write_data1 = ''.join('%s' %a for a in write_data)
-                # filename = open(path + '\\' + "write_data1" + ".txt", "w+", encoding='utf-8')
-                filename = open("write_data1.txt", "a+")
+                filename = open(path + '\\' + "write_data1" + ".txt", "a+", encoding='utf-8')
+                # filename = open("write_data1.txt", "a+")
                 filename.write(write_data1 + "\n")
                 filename.close()
         else:
@@ -95,7 +97,8 @@ async def writefile():
                 write_data_num = 0
 
                 write_data1 = ''.join('%s' %a for a in write_data)
-                filename = open("write_data2.txt", "a+")
+                filename = open(path + '\\' + "write_data2" + ".txt", "a+", encoding='utf-8')
+                # filename = open("write_data2.txt", "a+")
                 filename.write(write_data1 + "\n")
                 filename.close()
     data22 = ''

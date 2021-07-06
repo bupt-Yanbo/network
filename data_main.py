@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     while True:
         print("可供选择抽取信息如下：\n"
-              "1网址1 2网址2 3http版本\n"
+              "1:网址1 2:网址2 3:http版本\n"
               "请输入抽取信息序号,或输入0退出")
         extracNum = input("> ")
 

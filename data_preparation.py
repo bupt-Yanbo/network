@@ -1,7 +1,7 @@
 import os
 import re
 
-path = 'netdata'
+path = 'data'
 files = os.listdir(path)
 
 
