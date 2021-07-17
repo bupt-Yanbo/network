@@ -1,16 +1,18 @@
 import re
 
+from jieba import analyse
+
 
 def extract_1(data):
 
-    res=re.findall(r'[A-Za-z]+\.[A-Za-z]+',data,0)
+    res=re.findall(r'nLocation[^\\]*',data,0)
 
     return res
 
 
 def extract_3(data):
 
-    res=re.findall(r'http/[^\\]*',data,0)
+    res=re.findall(r'HTTP/[^\\]*',data,0)
 
     return res
 
@@ -22,31 +24,39 @@ def extract_2(data):
 
 def extract_4(data):
 
-    res=re.findall(r'',data,0)
+    res=re.findall(r'nCookie[^\\]*',data,0)
 
     return res
 
 def extract_5(data):
 
-    res=re.findall(r'',data,0)
+    res=re.findall(r'[^\\]*Host[^\\]*',data,0)
 
     return res
 
 def extract_6(data):
 
-    res=re.findall(r'',data,0)
+    res=re.findall(r'[^\\]*Connection[^\\]*',data,0)
 
     return res
 
 
 def extract_7(data):
 
-    res=re.findall(r'[A-Za-z0-9]+\.[A-Za-z0-9]+\.[A-Za-z0-9]+',data,0)
+    res=re.findall(r'[^\\]*User-Agent[^\\]*',data,0)
+
+    return res
+
+def extract_8(data):
+
+    res=re.findall(r'[^\\]*nAccept-Encoding:[^\\]*',data,0)
 
     return res
 
 
-
+def extract_9(data):
+    res =re.findall(r'[A-Za-z][^\\]*[A-Za-z][^\\]*[A-Za-z][^\\]*[A-Za-z][^\\]*[A-Za-z][^\\]*[A-Za-z][^\\]*[A-Za-z][^\\]*',data,0)
+    return res
 
 def choose_part(choice,temp):
     if choice == 1:
@@ -63,6 +73,10 @@ def choose_part(choice,temp):
         part = extract_6(temp)
     elif choice == 7:
         part = extract_7(temp)
+    elif choice == 8:
+        part = extract_8(temp)
+    elif choice == 9:
+        part = extract_9(temp)
     return part
 
 
