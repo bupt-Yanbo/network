@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d8c1eb17-7e44-4a49-a773-5e12d3ab1346" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_extract.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_extract.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user.db" beforeDir="false" afterPath="$PROJECT_DIR$/user.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/产品说明文档.md" beforeDir="false" afterPath="$PROJECT_DIR$/产品说明文档.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/产品说明文档.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/产品说明文档.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
